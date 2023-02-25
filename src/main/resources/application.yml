@@ -1,0 +1,20 @@
+server :
+  port : 9911
+spring :
+  cloud :
+    function :
+      definition : names|join|upper|print;generate
+    stream :
+      bindings:
+        generate-out-0:
+          destination : namesjoinupperprint-in-0
+        namesjoinupperprint-in-0:
+          consumer:
+            batchMode: true
+      rabbit :
+        bindings :
+          namesjoinupperprint-in-0:
+            consumer :
+              batchSize : 5
+              receiveTimeout : 10000
+              enableBatching : true
